@@ -1,1 +1,0 @@
-Does adding noise stop a firewall timing leak? Not quite — it just makes the attacker wait twice as long. A 25-second summary of my MSc dissertation (CST4990, Middlesex University).
