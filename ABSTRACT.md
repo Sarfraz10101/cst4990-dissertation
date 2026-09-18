@@ -1,7 +1,7 @@
 # Abstract
 
-*Draft. Word target ~250 (cut per supervisor review), one page maximum. Front
-matter — excluded from the 8,000-word main-body count.*
+*Final. Matches the submitted dissertation (`CST4990_Dissertation_Masood_final.docx`).
+Front matter, excluded from the 8,000-word main-body count.*
 
 Kernel packet filters leak configuration information to unprivileged, co-located
 observers through a resource-consumption side channel: on the loopback path,
@@ -15,14 +15,14 @@ firewall configurations, under Poisson-timed and reactive noise injectors at two
 core placements, with randomised interleaving, grouped cross-validation, and
 shuffled-label controls. Without the defence, random forest and logistic
 regression classifiers recover configuration well above chance (balanced
-accuracy 0.79–0.91), driven by a near-perfectly separable rule-depth axis.
+accuracy 0.79 to 0.91), driven by a near-perfectly separable rule-depth axis.
 With the defence active, the single-shot accuracy reduction is not
 statistically significant in any of eight run-by-model combinations tested.
 
 An observation-budget sweep shows why: under the most effective configuration,
 a defended attacker needs roughly twice as many observations to match an
 undefended one, with that advantage eroding as the budget grows. A tail-quantile
-analysis explains the null single-shot result — the additive noise inflates the
+analysis explains the null single-shot result: the additive noise inflates the
 upper tail of the latency distribution by up to two orders of magnitude while
 leaving the lower tail almost untouched, so a lower-tail-only attacker is barely
 affected. The defence's cost is similarly asymmetric: median latency rose under

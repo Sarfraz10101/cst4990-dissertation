@@ -1,16 +1,16 @@
-# Chapter 4 — Results & Analysis
+# Chapter 4: Results & Analysis
 
-*Draft. Word target 1,600. Present, do not interpret — interpretation is Chapter 5.
+*Final. Matches the submitted dissertation (`CST4990_Dissertation_Masood_final.docx`).
 Every number below is sourced in `CH4_NUMBERS.md`; do not hand-edit a figure here
 without regenerating it from the corresponding CSV.*
 
 ## 4.1 Dataset summary
 
-Four runs were collected on 26–27 August 2026, each following the collection
+Four runs were collected on 26 and 27 August 2026, each following the collection
 procedure and parameters fixed in Chapter 3 (2,000 trials per run, 250 per
 configuration, 50 recorded batches of 200 packets per trial). The four runs
-differ only in the two defence variables under test — triggering mode and
-noise-injector placement — and are identified consistently by this table
+differ only in the two defence variables under test (triggering mode and
+noise-injector placement) and are identified consistently by this table
 throughout the chapter, so that every number below can be traced back to the
 exact configuration that produced it:
 
@@ -39,8 +39,8 @@ Median per-packet latency separates cleanly by chain depth:
 | drop_deep | 3827.1 |
 
 `snr_check.py` (120 batches per configuration) quantifies this as a near-perfect
-signal on the depth axis — AUC 1.000 for both verdicts, Cohen's *d* of 3.74 (accept)
-and 9.64 (drop) — against a much weaker signal on the verdict axis: AUC 0.601
+signal on the depth axis (AUC 1.000 for both verdicts, Cohen's *d* of 3.74 for accept
+and 9.64 for drop), against a much weaker signal on the verdict axis: AUC 0.601
 (shallow) and 0.652 (deep). Chain depth is therefore roughly a four-fold effect on
 raw latency and is separable from a single packet, while accept/drop is a
 substantially smaller, marginal effect. This asymmetry between the two axes shapes
@@ -48,7 +48,7 @@ every result that follows.
 
 [[FIGURE:fig1]]
 
-## 4.3 Attacker accuracy — defence inactive
+## 4.3 Attacker accuracy: defence inactive
 
 With the defence off, a random forest classifier under grouped cross-validation
 achieves balanced accuracy well above the 25% chance floor in every run:
@@ -67,7 +67,7 @@ error structure implied by Section 4.2: the two shallow configurations are recov
 perfectly (250/250 and 234/250), while essentially all classification error is
 confined to confusing `accept_deep` with `drop_deep` (24 and 48 misclassifications
 out of 250 respectively). The classifier recovers chain depth almost perfectly and
-is comparatively unreliable on verdict — exactly what the AUC values in Section 4.2
+is comparatively unreliable on verdict, exactly what the AUC values in Section 4.2
 predict.
 
 [[FIGURE:fig4rf]]
@@ -84,13 +84,13 @@ The same asymmetry appears in all four runs, not only run01: balanced accuracy
 never drops below 0.786 (run02) even though run02 and run04 use the reactive
 triggering mode with no defence engaged yet, because the depth axis alone is
 sufficient to carry a random forest well above chance regardless of which
-triggering mode was later paired with it during collection. This is expected —
+triggering mode was later paired with it during collection. This is expected:
 noise mode and injector placement are properties of the *defended* condition
 only, and Section 4.3 reports the undefended condition, so cross-run variation here
 reflects ordinary sampling variation in the classifier and collection schedule
 rather than any property of the (as yet inactive) defence.
 
-## 4.4 Attacker accuracy — defence active
+## 4.4 Attacker accuracy: defence active
 
 | Run | Placement | Balanced accuracy (noise on) | Reduction, RF (pp) |
 |---|---|---|---|
@@ -115,7 +115,7 @@ non-uniform across the latency distribution:
 | q90 | 8465.2 | 17406.7 | +105.6% |
 | q95 | 12126.0 | 32745.5 | +170.0% |
 
-The injected noise is additive, so it can only make a `sendto()` call slower — it
+The injected noise is additive, so it can only make a `sendto()` call slower; it
 cannot make the victim's fastest packets faster. The lower tail of the distribution
 is therefore almost unaffected while the upper tail inflates by two orders of
 magnitude more. A decisive ablation (`tail_ablation.csv`) trains separate classifiers
@@ -123,13 +123,13 @@ on low-tail-only and upper-tail-only features (verdict axis, chance 0.5): in run
 the upper-tail classifier drops from 0.658 to 0.538 (near chance) when the defence is
 active, while the low-tail classifier is essentially untouched (0.832 → 0.824). A
 classifier using the full 19-feature set loses 0.000 balanced accuracy in the same
-run — it simply routes around the part of the distribution the defence perturbs.
+run. It simply routes around the part of the distribution the defence perturbs.
 
 ## 4.5 Observation-budget curve
 
 A single accuracy figure understates what the defence does. Sweeping the observation
-budget (batches per trial) on the **verdict** axis (chance 0.5) — the axis on which
-noise has measurable room to act, per Section 4.2 — shows accuracy climbing with budget under
+budget (batches per trial) on the **verdict** axis (chance 0.5), the axis on which
+noise has measurable room to act per Section 4.2, shows accuracy climbing with budget under
 both conditions, with the defended curve initially lagging the undefended one:
 
 | Placement / mode | Trace-multiplication factor | Mean gap | Max gap |
@@ -183,7 +183,7 @@ The two same-core runs (run03, run04) pay markedly more CPU overhead than the
 two cross-core runs (run01, run02) despite using the same three-worker,
 120 Hz-mean burst configuration, because same-core placement forces the
 injector to contend with the victim for scheduling quanta on a single vCPU
-rather than running unopposed on idle cores — the same placement choice that
+rather than running unopposed on idle cores. The same placement choice that
 Section 4.5 shows is necessary for the defence to have any accuracy effect at all is
 also the more computationally expensive one to run. Poisson triggering (run01,
 run03) is consistently costlier than reactive triggering (run02, run04) at

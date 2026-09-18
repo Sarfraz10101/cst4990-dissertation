@@ -1,6 +1,6 @@
-# Chapter 5 — Discussion & Critical Evaluation
+# Chapter 5: Discussion & Critical Evaluation
 
-*Draft. Word target 1,400.*
+*Final. Matches the submitted dissertation (`CST4990_Dissertation_Masood_final.docx`).*
 
 ## 5.1 Answering RQ1
 
@@ -11,14 +11,14 @@ combinations crosses zero (Section 4.4), and three of the eight point estimates 
 negative. Read that way, the defence appears to do nothing.
 
 That reading is incomplete, and the observation-budget curve in Section 4.5 shows why.
-Under the most effective configuration tested — reactive triggering with the
-injector sharing the victim's core — the defended attacker needs roughly twice as
+Under the most effective configuration tested (reactive triggering with the
+injector sharing the victim's core), the defended attacker needs roughly twice as
 many observation batches to reach the accuracy an undefended attacker reaches at
 the same budget, with a mean accuracy gap of +0.061 and a peak of +0.144 at five
 batches. The defence does not lower the attacker's *ceiling*; it raises the
 *cost of observation* needed to reach it. A single accuracy figure, collected at
 one arbitrarily-chosen budget, cannot distinguish "the defence does nothing" from
-"the defence delays the attacker by a factor of two" — both look identical at a
+"the defence delays the attacker by a factor of two": both look identical at a
 budget large enough for the curves to reconverge. This is the central
 methodological argument of the dissertation: RQ1 does not have a single-number
 answer, and evaluations that report only one should be treated with suspicion.
@@ -61,8 +61,8 @@ cryptographic hardware Chari et al. analysed: accuracy under the defence starts
 below the undefended curve and converges toward it as the attacker is given more
 observations, rather than remaining suppressed indefinitely. That the same
 qualitative behaviour appears in kernel-level packet filtering as in hardware
-power traces is evidence that the theoretical argument — additive noise raises
-cost rather than removing information — generalises beyond the domain it was
+power traces is evidence that the theoretical argument, that additive noise raises
+cost rather than removing information, generalises beyond the domain it was
 originally proposed for.
 
 The tail-quantile analysis in Section 4.4 adds a mechanism Chari et al.'s original
@@ -73,7 +73,7 @@ latency distribution by two orders of magnitude while leaving the lower tail
 almost untouched (Section 4.4). An attacker who trains a classifier on lower-tail
 statistics alone is essentially unaffected by the defence. Where prior evaluations
 report a single accuracy number, this result shows *why* that number can be null
-even when the defence is measurably changing the underlying distribution — the
+even when the defence is measurably changing the underlying distribution: the
 attacker is not defeated, it is redirected to the part of the distribution the
 defence does not reach.
 
@@ -117,7 +117,7 @@ measurement floor.
 ## 5.5 Recommendations
 
 Algorithmic noise injection is worth deploying only where an attacker's
-observation budget is independently bounded — for example, behind connection or
+observation budget is independently bounded, for example behind connection or
 rate limiting that caps how many timed samples an adversary can collect before
 being throttled or detected. Deployed without such a bound, this evaluation shows
 the defence is a delay, not a barrier: given enough batches, the defended and
@@ -143,11 +143,11 @@ The most useful methodological lesson from this project was operational rather
 than statistical: `noise_cpu_s`, the CPU-overhead measurement underpinning Section 4.6,
 initially read as zero throughout the first collection run. The cause was
 `getrusage(RUSAGE_CHILDREN)`, which only accounts for CPU time of children that
-have already been reaped — and the noise injector, by design, is a long-lived
+have already been reaped, and the noise injector, by design, is a long-lived
 worker pool that is never reaped mid-run. The fix was to read `/proc/<pid>/stat`
 for the live worker processes directly; every run predating the fix was discarded
 and recollected. The result was correct in the sense that the pipeline reported
-what it was actually asked to measure — nothing was fabricated — but the
+what it was actually asked to measure (nothing was fabricated), but the
 underlying measurement was silently wrong until checked against an independent
 source. Given the timeline again, I would validate every new instrumentation
 channel against a known-nonzero synthetic case before trusting it on real data,

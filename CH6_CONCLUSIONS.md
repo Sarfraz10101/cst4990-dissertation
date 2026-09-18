@@ -1,6 +1,6 @@
-# Chapter 6 — Conclusions & Further Work
+# Chapter 6: Conclusions & Further Work
 
-*Draft. Word target 600.*
+*Final. Matches the submitted dissertation (`CST4990_Dissertation_Masood_final.docx`).*
 
 ## 6.1 Conclusions
 
@@ -11,16 +11,16 @@ eight run × model combinations, noise injection produced no statistically
 significant reduction in single-shot attacker accuracy, with confidence intervals
 on the reduction crossing zero in every case. Read only at a single observation
 budget, the defence appears ineffective. The observation-budget curve constructed
-to test this properly shows otherwise — under the most effective configuration
+to test this properly shows otherwise: under the most effective configuration
 tested, the defended attacker required roughly twice the observation budget of the
 undefended one to reach equivalent accuracy, with that advantage eroding as the
 attacker was allowed to observe for longer. The defence is a rate-limiting
 control on observation cost, not a mitigation of the underlying leak, and this
 matches the theoretical prediction of Chari et al. (1999) for noise-based
-countermeasures against power analysis — a prediction Masure, Dumas and Prouff
-(2020) show still holds against modern deep-learning attackers, not only the
-classical statistical distinguishers Chari et al. considered — reproduced here
-on a different class of system. On RQ2, the defence's cost is real and asymmetric: median latency
+countermeasures against power analysis, a prediction Masure, Dumas and Prouff
+(2020) show still holds against modern deep-learning attackers rather than only
+the classical statistical distinguishers Chari et al. considered, and it is
+reproduced here on a different class of system. On RQ2, the defence's cost is real and asymmetric: median latency
 inflation stayed under 3%, but tail (p95) latency rose by up to 431.9% and CPU
 consumption by up to 4017%, depending on triggering mode and injector placement.
 
@@ -31,17 +31,17 @@ run × model accuracy measurements, four observation-budget sweep curves, and
 paired overhead measurements, collected under controls (randomised interleaving,
 grouped cross-validation, shuffled-label controls, core pinning) designed to rule
 out the artefacts that commonly inflate reported accuracy in side-channel machine-
-learning evaluations. Second, an experimental harness — firewall configuration
+learning evaluations. Second, an experimental harness (firewall configuration
 generation, noise injection in two triggering modes, deterministic and
-byte-reproducible analysis — that can be re-run on new hardware or extended to new
+byte-reproducible analysis) that can be re-run on new hardware or extended to new
 defences. Third, a methodological argument, supported directly by the data: that a
 single accuracy figure at one observation budget cannot distinguish a defence that
 delays an attacker from one that does nothing, and that observation-budget curves
 should be reported as standard practice for this class of defence. Fourth, an
-empirical trace-multiplication figure and a mechanistic explanation for it —
-additive noise inflates the upper tail of a latency distribution far more than its
+empirical trace-multiplication figure and a mechanistic explanation for it
+(additive noise inflates the upper tail of a latency distribution far more than its
 floor, so a full-feature attacker is barely affected while a lower-tail-only
-attacker is nearly defeated — which is a specific, actionable finding for anyone
+attacker is nearly defeated), which is a specific, actionable finding for anyone
 designing rather than merely evaluating this class of defence.
 
 ## 6.3 Further work
