@@ -1,0 +1,97 @@
+{
+  "checked_utc": "2026-08-26T22:00:12Z",
+  "verdict": "ready",
+  "parameters": {
+    "trials": 2000,
+    "batches_per_trial": 60,
+    "packets_per_batch": 200,
+    "noise_workers": 3
+  },
+  "checks": [
+    {
+      "level": "OK",
+      "check": "platform",
+      "detail": "Linux 5.15.0-139-generic"
+    },
+    {
+      "level": "OK",
+      "check": "privileges",
+      "detail": "running as root"
+    },
+    {
+      "level": "OK",
+      "check": "vCPUs",
+      "detail": "4 usable of 4 present; run needs 4"
+    },
+    {
+      "level": "OK",
+      "check": "python packages",
+      "detail": "numpy, pandas, sklearn, scipy on 3.8.10"
+    },
+    {
+      "level": "OK",
+      "check": "nftables",
+      "detail": "nftables v0.9.3 (Topsy)"
+    },
+    {
+      "level": "OK",
+      "check": "stale ruleset",
+      "detail": "no leftover experiment table"
+    },
+    {
+      "level": "OK",
+      "check": "other firewall tables",
+      "detail": "none - clean measurement baseline"
+    },
+    {
+      "level": "OK",
+      "check": "probe port",
+      "detail": "udp/9999 free"
+    },
+    {
+      "level": "OK",
+      "check": "clock",
+      "detail": "CLOCK_MONOTONIC_RAW, resolution 1 ns"
+    },
+    {
+      "level": "OK",
+      "check": "core pinning",
+      "detail": "sched_setaffinity works; 4 cores available to pin to"
+    },
+    {
+      "level": "OK",
+      "check": "achieved parallelism",
+      "detail": "2.98x of one core from 3 workers (1.199 CPU s in 0.402 s wall)"
+    },
+    {
+      "level": "OK",
+      "check": "system load",
+      "detail": "1-min load 0.44 across 4 cpu(s) = 0.11/cpu"
+    },
+    {
+      "level": "OK",
+      "check": "memory",
+      "detail": "3.28 GiB available"
+    },
+    {
+      "level": "OK",
+      "check": "cpu frequency scaling",
+      "detail": "no cpufreq interface (typical in a VM) - guest sees a fixed frequency, so no governor-driven drift"
+    },
+    {
+      "level": "WARN",
+      "check": "RAPL energy counters",
+      "detail": "powercap present but no readable energy_uj - masked by the hypervisor, as expected in a guest"
+    },
+    {
+      "level": "OK",
+      "check": "disk space",
+      "detail": "1.7 GiB free; trace will be about 10 MiB (100,000 rows)"
+    },
+    {
+      "level": "OK",
+      "check": "estimated runtime",
+      "detail": "about 1 min for 2,000 trials (1 min probing + 0 min ruleset reloads). Lower bound - deep chains cost more per packet than the ruleset loaded right now."
+    }
+  ]
+}

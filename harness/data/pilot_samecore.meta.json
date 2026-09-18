@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-08-27T02:57:45Z",
+  "kernel": "5.15.0-139-generic",
+  "python": "3.8.10",
+  "cpu_model": "13th Gen Intel(R) Core(TM) i9-13980HX",
+  "cpu_count": 4,
+  "nft_version": "nftables v0.9.3 (Topsy)",
+  "clock_resolution_ns": 1.0,
+  "args": {
+    "out": "../data/pilot_samecore.csv",
+    "trials": 60,
+    "noise_mode": "poisson",
+    "pin": 0,
+    "noise_cpus": "0",
+    "dry_run": false
+  },
+  "parameters": {
+    "packets_per_batch": 200,
+    "batches_per_trial": 50,
+    "warmup_batches": 10,
+    "trials_per_cell": 60,
+    "shallow_depth": 0,
+    "deep_depth": 256,
+    "noise_workers": 3,
+    "noise_burst_rate_hz": 120.0,
+    "random_seed": 20260821
+  }
+}

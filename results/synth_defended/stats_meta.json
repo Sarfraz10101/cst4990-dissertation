@@ -1,0 +1,8 @@
+{
+  "source_data": "../data/synth_defended.csv",
+  "n_bootstrap": 500,
+  "n_permutations": 2000,
+  "alpha": 0.05,
+  "chance_accuracy": 0.25,
+  "seed": 12345
+}

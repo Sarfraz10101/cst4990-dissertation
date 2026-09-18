@@ -1,0 +1,9 @@
+condition,model,labels,n_samples,balanced_accuracy,accuracy,chance,lift_over_chance
+noise_off,logreg,real,480,0.9458,0.9458,0.25,0.6958
+noise_off,logreg,shuffled,480,0.2417,0.2417,0.25,-0.0083
+noise_off,randomforest,real,480,0.9583,0.9583,0.25,0.7083
+noise_off,randomforest,shuffled,480,0.2104,0.2104,0.25,-0.0396
+noise_on,logreg,real,480,0.8833,0.8833,0.25,0.6333
+noise_on,logreg,shuffled,480,0.2271,0.2271,0.25,-0.0229
+noise_on,randomforest,real,480,0.9042,0.9042,0.25,0.6542
+noise_on,randomforest,shuffled,480,0.2188,0.2188,0.25,-0.0312

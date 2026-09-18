@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>CST4990 — dissertation viva explainer</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: #ffffff;
+        color: #111827;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+      }
+      .inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        padding: 0 160px;
+        text-align: center;
+        width: 100%;
+      }
+      h1 {
+        margin: 0;
+        font-size: 68px;
+        font-weight: 600;
+        line-height: 1.25;
+        color: #111827;
+        max-width: 1300px;
+      }
+      .subtitle {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 400;
+        color: #4b5563;
+      }
+      .caption {
+        margin: 0;
+        font-size: 34px;
+        font-weight: 500;
+        color: #1f2937;
+        max-width: 1400px;
+        line-height: 1.4;
+      }
+      .stat {
+        margin: 0;
+        font-size: 96px;
+        font-weight: 700;
+        color: #1d4ed8;
+        letter-spacing: -1px;
+      }
+      .stat-label {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 500;
+        color: #4b5563;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .turn-text {
+        margin: 0;
+        font-size: 54px;
+        font-weight: 500;
+        font-style: italic;
+        color: #374151;
+      }
+      .fig {
+        max-width: 1180px;
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+      }
+      .closing-title {
+        margin: 0;
+        font-size: 58px;
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.3;
+      }
+      .closing-sub {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 400;
+        color: #6b7280;
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-width="1920"
+      data-height="1080"
+      data-duration="24.5"
+    >
+      <section id="scene1" class="clip" data-start="0" data-duration="2.5">
+        <div class="inner" id="scene1-inner">
+          <h1>Can noise hide a firewall from an attacker?</h1>
+          <p class="subtitle">An MSc dissertation experiment — CST4990</p>
+        </div>
+      </section>
+
+      <section id="scene2" class="clip" data-start="2.5" data-duration="3.5">
+        <div class="inner" id="scene2-inner">
+          <img class="fig" src="assets/images/architecture.png" alt="Experimental architecture" />
+          <p class="caption">A timing leak. A machine-learning attacker. A noise-based defence.</p>
+        </div>
+      </section>
+
+      <section id="scene3" class="clip" data-start="6.0" data-duration="3.5">
+        <div class="inner" id="scene3-inner">
+          <p class="stat-label">Attacker accuracy</p>
+          <p class="stat">90.6% &rarr; 90.4%</p>
+          <p class="subtitle">barely moved</p>
+        </div>
+      </section>
+
+      <section id="scene4" class="clip" data-start="9.5" data-duration="3.0">
+        <div class="inner" id="scene4-inner">
+          <p class="turn-text">So does the defence do&hellip; nothing?</p>
+        </div>
+      </section>
+
+      <section id="scene5" class="clip" data-start="12.5" data-duration="6.5">
+        <div class="inner" id="scene5-inner">
+          <img class="fig" src="assets/images/sweep_curve.png" alt="Observation-budget sweep curve" />
+          <p class="caption" id="scene5-caption">The attacker needs <strong>2&times;</strong> the observation time to catch up.</p>
+        </div>
+      </section>
+
+      <section id="scene6" class="clip" data-start="19.0" data-duration="3.5">
+        <div class="inner" id="scene6-inner">
+          <p class="stat-label">Cost of the defence</p>
+          <p class="stat" style="font-size: 72px;">+536% CPU &middot; +148% tail latency</p>
+        </div>
+      </section>
+
+      <section id="scene7" class="clip" data-start="22.5" data-duration="2.0">
+        <div class="inner" id="scene7-inner">
+          <p class="closing-title">A rate-limiting control &mdash; not a fix.</p>
+          <p class="closing-sub">CST4990 &middot; Sarfraz Masood &middot; Middlesex University</p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const FADE_IN = 0.5;
+      const FADE_OUT = 0.35;
+
+      function fadeInOut(id, start, duration, riseFrom) {
+        const rise = riseFrom === undefined ? 24 : riseFrom;
+        tl.fromTo(
+          "#" + id,
+          { opacity: 0, y: rise },
+          { opacity: 1, y: 0, duration: FADE_IN, ease: "power2.out" },
+          start
+        );
+        tl.to(
+          "#" + id,
+          { opacity: 0, duration: FADE_OUT, ease: "power1.in" },
+          start + duration - FADE_OUT
+        );
+      }
+
+      fadeInOut("scene1-inner", 0.0, 2.5);
+      fadeInOut("scene2-inner", 2.5, 3.5);
+      fadeInOut("scene3-inner", 6.0, 3.5);
+      fadeInOut("scene4-inner", 9.5, 3.0);
+      fadeInOut("scene5-inner", 12.5, 6.5);
+      fadeInOut("scene6-inner", 19.0, 3.5);
+
+      // Final scene fades in but holds (no fade-out — it's the last frame)
+      tl.fromTo(
+        "#scene7-inner",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: FADE_IN, ease: "power2.out" },
+        22.5
+      );
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

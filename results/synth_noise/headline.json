@@ -1,0 +1,14 @@
+{
+  "logreg": {
+    "balanced_accuracy_noise_off": 0.9458,
+    "balanced_accuracy_noise_on": 0.8833,
+    "absolute_reduction": 0.0625,
+    "relative_reduction_pct": 8.98
+  },
+  "randomforest": {
+    "balanced_accuracy_noise_off": 0.9583,
+    "balanced_accuracy_noise_on": 0.9042,
+    "absolute_reduction": 0.0541,
+    "relative_reduction_pct": 7.64
+  }
+}

@@ -1,0 +1,4 @@
+feature_group,n_features,balanced_accuracy_noise_off,balanced_accuracy_noise_on,accuracy_lost_to_defence,chance
+low_tail,3,0.718,0.72,-0.002,0.5
+upper_tail,4,0.686,0.52,0.166,0.5
+all_features,19,0.726,0.744,-0.018,0.5

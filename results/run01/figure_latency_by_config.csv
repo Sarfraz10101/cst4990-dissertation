@@ -1,0 +1,5 @@
+config,0,1
+accept_deep,3900.55,3983.1
+accept_shallow,1040.825,1052.8
+drop_deep,3760.475,3830.825
+drop_shallow,924.7,926.625

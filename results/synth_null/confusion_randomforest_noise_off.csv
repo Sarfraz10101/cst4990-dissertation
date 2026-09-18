@@ -1,0 +1,5 @@
+,accept_deep,accept_shallow,drop_deep,drop_shallow
+accept_deep,28,36,32,24
+accept_shallow,31,21,37,31
+drop_deep,28,33,27,32
+drop_shallow,28,34,30,28

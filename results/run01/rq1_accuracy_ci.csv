@@ -1,0 +1,5 @@
+model,condition,n,balanced_accuracy,ci95_low,ci95_high,chance,above_chance,p_vs_chance,p_reported
+logreg,noise_off,1000,0.864,0.8426,0.8843,0.25,True,9.999000099990002e-05,< 1.0e-04
+logreg,noise_on,1000,0.84,0.8185,0.8609,0.25,True,9.999000099990002e-05,< 1.0e-04
+randomforest,noise_off,1000,0.912,0.894,0.9288,0.25,True,9.999000099990002e-05,< 1.0e-04
+randomforest,noise_on,1000,0.902,0.8838,0.92,0.25,True,9.999000099990002e-05,< 1.0e-04

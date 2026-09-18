@@ -1,0 +1,8 @@
+{
+  "source_data": "../data/run02_reactive.csv",
+  "n_bootstrap": 2000,
+  "n_permutations": 10000,
+  "alpha": 0.05,
+  "chance_accuracy": 0.25,
+  "seed": 12345
+}

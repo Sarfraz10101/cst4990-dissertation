@@ -1,0 +1,3 @@
+model,accuracy_noise_off,accuracy_noise_on,reduction_pp,reduction_ci95_low_pp,reduction_ci95_high_pp,undefended_above_chance,pct_of_leak_removed,significant
+logreg,0.857,0.858,-0.1,-3.13,2.79,True,-0.16,False
+randomforest,0.906,0.904,0.2,-2.08,2.59,True,0.3,False

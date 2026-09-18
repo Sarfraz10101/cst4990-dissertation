@@ -1,0 +1,5 @@
+run,mode,placement,acc_off,acc_on,red_pp_logreg,red_pp_rf,red_sig,median_lat_pct,p95_lat_pct,cpu_pct,TMF_verdict,mean_gap,max_gap,off_curve_backward_steps
+run01,poisson,cross-core,0.912,0.902,2.4,1.0,False,1.46,3.23,473.88,1.5,0.017,0.042,1
+run02,reactive,cross-core,0.786,0.771,3.9,1.5,False,0.29,0.8,115.83,1.0,0.001,0.038,1
+run03,poisson,same-core,0.817,0.827,-0.5,-1.0,False,2.96,431.93,4016.95,2.5,0.004,0.048,3
+run04,reactive,same-core,0.906,0.904,-0.1,0.2,False,2.95,148.5,535.5,2.0,0.061,0.144,3

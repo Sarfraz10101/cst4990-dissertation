@@ -1,0 +1,2 @@
+undefended_ceiling,chance,significance_threshold,undefended_above_chance,target_accuracy,batches_needed_noise_off,batches_needed_noise_on,trace_multiplication_factor,defended_reached_target,interpretation,target
+0.85,0.5,0.5671,True,0.675,2,3,1.5,True,defence delays the attacker,verdict
