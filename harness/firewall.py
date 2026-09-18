@@ -18,6 +18,8 @@ from config import (
     FirewallConfig,
 )
 
+# Fall back to the standard install path if `which` can't see it (e.g. a
+# restricted sudo PATH) rather than failing before we even try to run it.
 NFT = shutil.which("nft") or "/usr/sbin/nft"
 
 
@@ -34,6 +36,8 @@ def _run_nft(args: list[str], stdin: str | None = None) -> str:
         text=True,
     )
     if proc.returncode != 0:
+        # nft's own diagnostics land on stderr in most versions but on stdout
+        # in a few, so check both rather than silently swallowing the message.
         detail = (proc.stderr or proc.stdout).strip()
         raise FirewallError(f"nft {' '.join(args)} failed: {detail}")
     return proc.stdout
@@ -54,6 +58,9 @@ def build_ruleset(cfg: FirewallConfig) -> str:
         f"        udp dport {FILLER_PORT_BASE + i} drop"
         for i in range(cfg.filler_rules)
     )
+    # `policy accept` on the chain, not the target rule, matters: only the
+    # probe port's own rule decides accept/drop, so the configured verdict is
+    # never masked by a chain-wide default.
     return f"""\
 table {NFT_FAMILY} {NFT_TABLE}
 delete table {NFT_FAMILY} {NFT_TABLE}
@@ -95,8 +102,11 @@ def read_counter() -> tuple[int, int]:
     as a sanity check that probe traffic is actually reaching the chain.
     """
     out = _run_nft(["-j", "list", "table", NFT_FAMILY, NFT_TABLE])
-    import json
+    import json  # only needed here, so kept out of the module-level imports
 
+    # nft's JSON dump is a flat list of table/chain/rule objects; a rule's
+    # match expressions (verdict, counter, ...) are nested inside its own
+    # "expr" list, so the counter has to be found by walking both levels.
     for item in json.loads(out).get("nftables", []):
         rule = item.get("rule")
         if not rule:
@@ -110,6 +120,9 @@ def read_counter() -> tuple[int, int]:
 
 def preflight() -> None:
     """Fail fast, with a fixable message, before a long collection run."""
+    # Only complain here if nft is neither on PATH nor a plausible absolute
+    # fallback path; an absolute path is trusted and checked properly by the
+    # `list ruleset` call below, which also confirms we're allowed to read it.
     if not shutil.which(NFT) and not NFT.startswith("/"):
         raise FirewallError("nft not found - run setup_guest.sh first")
     try:

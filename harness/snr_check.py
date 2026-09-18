@@ -29,12 +29,17 @@ import config as C
 import firewall
 from collect import drain, open_sockets, timed_batch
 
+# Small enough to finish in the ~30s this check promises, but still enough
+# batches per configuration for the AUC/Cohen's d estimates to be stable.
 BATCHES = 120
 WARMUP = 20
 
 
 def measure(cfg: C.FirewallConfig, sender, listener, payload, addr) -> list[float]:
     firewall.apply_config(cfg)
+    # Discard the first WARMUP batches: cold caches and first-touch page
+    # faults right after a config switch would otherwise masquerade as part
+    # of the signal being measured.
     for _ in range(WARMUP):
         timed_batch(sender, payload, addr)
         drain(listener)
@@ -42,6 +47,8 @@ def measure(cfg: C.FirewallConfig, sender, listener, payload, addr) -> list[floa
     samples = []
     for _ in range(BATCHES):
         ns, _ = timed_batch(sender, payload, addr)
+        # Drain the listener every batch so an unread backlog on the socket
+        # never bleeds into the timing of the next one.
         drain(listener)
         samples.append(ns)
     return samples
@@ -49,8 +56,13 @@ def measure(cfg: C.FirewallConfig, sender, listener, payload, addr) -> list[floa
 
 def cohens_d(a: list[float], b: list[float]) -> float:
     va, vb = statistics.variance(a), statistics.variance(b)
+    # Standard pooled-variance formula, weighting each sample's variance by
+    # its own degrees of freedom rather than averaging the two unweighted.
     pooled = (((len(a) - 1) * va + (len(b) - 1) * vb) / (len(a) + len(b) - 2)) ** 0.5
     if pooled == 0:
+        # Zero variance with a nonzero mean gap is perfect, unbounded
+        # separation, not an error, so report it as infinite rather than
+        # raising a division-by-zero.
         return float("inf")
     return (statistics.mean(b) - statistics.mean(a)) / pooled
 
@@ -63,11 +75,15 @@ def auc(shallow: list[float], deep: list[float]) -> float:
             if d > s:
                 wins += 1
             elif d == s:
+                # Standard Mann-Whitney convention: an exact tie counts as
+                # half a win for each side rather than being dropped.
                 ties += 1
     return (wins + 0.5 * ties) / (len(shallow) * len(deep))
 
 
 def main() -> int:
+    # nft rejects ruleset changes from an unprivileged process, so failing
+    # fast here with a fixable message beats a cryptic FirewallError later.
     if os.geteuid() != 0:
         print("error: must run as root: sudo -E python3 snr_check.py", file=sys.stderr)
         return 1
@@ -110,6 +126,9 @@ def main() -> int:
         drp = results[f"drop_{depth}"]
         print(f"  {depth:7s} d = {cohens_d(drp, acc):6.2f}   AUC = {auc(drp, acc):.3f}")
 
+    # Take the stronger of the two verdict-axis AUCs: the question this check
+    # answers is whether a leak exists at all, so one clearly-separable
+    # framing is enough to justify proceeding, even if the other is weaker.
     best = max(verdict_auc)
     print()
     if best >= 0.90:
@@ -125,6 +144,8 @@ def main() -> int:
 
 
 def _iqr(xs: list[float]) -> float:
+    # n=4 splits the data into quartiles, returning the three cut points
+    # [Q1, Q2, Q3]; the IQR is the span between the first and third.
     q = statistics.quantiles(xs, n=4)
     return q[2] - q[0]
 
