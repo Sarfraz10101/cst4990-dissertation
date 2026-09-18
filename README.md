@@ -1,18 +1,51 @@
 # CST4990, Algorithmic Power-Noise Injection Against Firewall Side-Channel Analysis
 
-Experimental harness for the MSc dissertation. Everything here runs on one
-laptop with no external network dependency and no human participants, matching
-the Low-Risk ethics self-assessment.
+MSc dissertation project (Middlesex University, MSc Cyber Security and
+Emerging Threats) asking whether algorithmic noise injection can defend a
+Linux `nftables` firewall against a machine-learning attacker that infers the
+firewall's configuration purely from packet-send timing, with no access to
+config files, replies, or the management plane.
+
+On the loopback path, the kernel evaluates the `nftables` `INPUT` chain
+synchronously inside the sender's own `sendto()` call, so a firewall with a
+deeper rule chain, or a different verdict, produces a measurably different
+send latency. This project builds an experimental harness that trains a
+classifier to recover which of four firewall configurations is active from
+that timing signal alone, then evaluates whether injecting randomised CPU
+noise into the environment can defeat that classifier, and at what cost.
+
+**Key result.** Without the defence, a random forest classifier recovers the
+firewall configuration at 0.79 to 0.91 balanced accuracy against a 25% chance
+baseline. With the defence active, there is no statistically significant
+reduction in that headline accuracy figure, in any of eight run-by-model
+combinations tested. That sounds like the defence does nothing, but an
+observation-budget sweep shows otherwise: under the best configuration, the
+defended attacker needs roughly twice as many observations to match the
+undefended one. A tail-quantile analysis explains the gap between those two
+findings: the injected noise is additive, so it inflates the upper tail of the
+latency distribution by up to two orders of magnitude while leaving the lower
+tail almost untouched, meaning an attacker who only looks at fast packets is
+barely affected. The defence's cost is similarly asymmetric: median latency
+rises under 3%, but p95 latency rises by up to 431.9% and CPU consumption by
+up to 4017%. The conclusion is that this class of defence is a rate-limiting
+control on how fast an attacker can extract the signal, not a mitigation of
+the underlying leak, and should be evaluated as one.
+
+The full writeup is in `CST4990_Dissertation_Masood_final.docx`. Everything in
+this repo runs on one laptop with no external network dependency and no human
+participants, matching the Low-Risk ethics self-assessment in `APPENDICES.md`.
 
 **Where to look:**
 
 | File | Contents |
 |---|---|
-| `DISSERTATION_PLAN.md` | Chapter plan, word budgets, the schedule to 18 September |
-| `VIVA_PACK.md` | Slide structure, demo script, question bank, the viva is 40% |
+| `CST4990_Dissertation_Masood_final.docx` | The submitted dissertation |
+| `ABSTRACT.md`, `CH1_INTRODUCTION.md` to `CH6_CONCLUSIONS.md` | The dissertation chapters, as markdown source |
 | `APPENDICES.md` | Project outline, risk assessment, code manifest, ethics form |
 | `REFERENCES.md` | Verified citations only |
-| this file | The experiment itself |
+| `DISSERTATION_PLAN.md` | Chapter plan, word budgets, the schedule to 18 September |
+| `VIVA_PACK.md`, `VIVA_VOICE_BRIEFING.md` | Slide structure, demo script, question bank, the viva is 40% |
+| this file | The experimental harness itself |
 
 ---
 
